@@ -1,0 +1,59 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>JSONP</title>
+       <style>
+       #div{
+              padding-top: 100px; 
+              text-align:center;
+       }
+       #table{
+               width:800px;
+               height:300px;
+               margin: 0 auto;
+       }
+       }
+       </style>
+	<script src="jquery-3.1.1.min.js"></script>
+	<script type="text/javascript">
+       $(document).ready(function(){
+       	$.ajax({
+       		type:'get',
+       		async:false,//同步为true
+       		url:'http://bb.com/jsonp.php',
+       		dataType:'jsonp',
+       		jsonp:'callback',//传递给请求处理程序或页面的，用于获得jsonp毁掉函数的参数名，一般为callback
+       		jsonpCallback:'localHander',//自定义的jsonp回掉函数名，默认为jq自动生成的随机函数名，也可以写'？';
+       		success:function(json){
+       			var tmp='<tr>';
+       			for(var i=0;i<json.length;i++){
+       				tmp+='<td>'+json[i].id+'</td>'+
+       				     '<td>'+json[i].flight+'</td>'+
+                   '<td>'+json[i].price+'</td>'+
+                   '<td>'+json[i].tickets+'</td>'
+       				tmp+='</tr>';
+       			}
+       			$('#table').append(tmp);
+       		},
+       		error:function(){
+              alert('报错');
+       		}
+       	})
+       })
+	</script>
+</head>
+<body bgcolor="pink">
+       <div id="div">
+	<h1>航班信息：</h1>
+	<table border=1 id="table" cellspacing="0">
+		<tr>
+			<td>序号</td>
+			<td>航班信息</td>
+			<td>机票价格</td>
+			<td>剩余票(张)</td>
+		</tr>
+	</table>
+       </div>
+</body>
+</html>
